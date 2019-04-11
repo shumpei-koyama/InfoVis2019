@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Task 2</title>
+  </head>
+  <body>
+        <form　name="input">
+      ベクトル1のx成分:<input type="text" id="vec1x"><br/>
+      ベクトル1のy成分:<input type="text" id="vec1y"><br/>
+      ベクトル1のz成分:<input type="text" id="vec1z"><br/>
+      ベクトル2のx成分:<input type="text" id="vec2x"><br/>
+      ベクトル2のy成分:<input type="text" id="vec2y"><br/>
+      ベクトル2のz成分:<input type="text" id="vec2z"><br/>
+      ベクトル3のx成分:<input type="text" id="vec3x"><br/>
+      ベクトル3のy成分:<input type="text" id="vec3y"><br/>
+      ベクトル3のz成分:<input type="text" id="vec3z"><br/>
+      <input type="button" value="計算" onclick="action();"><br/>
+	</form>
+       <script src="vec3.js"></script>
+       <script>
+
+
+
+      var x0,y0,z0;
+      var x1,y1,z1;
+      var x2,y2,z2;
+
+
+      
+      function action(){
+      //load typed num
+      x0=document.getElementById('vec1x').value;
+      x1=document.getElementById('vec2x').value;
+      x2=document.getElementById('vec3x').value;
+      y0=document.getElementById('vec1y').value;
+      y1=document.getElementById('vec2y').value;
+      y2=document.getElementById('vec3y').value;
+      z0=document.getElementById('vec1z').value;
+      z1=document.getElementById('vec2z').value;
+      z2=document.getElementById('vec3z').value;
+      //change string to number
+      x1=Number(x1); x2=Number(x2); x0=Number(x0);
+      y1=Number(y1); y2=Number(y2); y0=Number(y0);
+      z1=Number(z1); z2=Number(z2); z0=Number(z0);
+	 //criate vector
+	 var v1=new Vec3(x0,y0,z0);
+	 var v2=new Vec3(x1,y1,z1);
+	 var v3=new Vec3(x2,y2,z2);
+	 var S=AreaofTriangle(v1,v2,v3);
+	 window.alert("面積は"+S);
+      }
+	 
+    </script>
+
+ 
+  </body>
+</html>
