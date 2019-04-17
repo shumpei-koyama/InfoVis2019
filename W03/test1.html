@@ -1,0 +1,25 @@
+<html>
+
+  <head>
+    <title>TEST1</title>
+  </head>
+
+  <body>
+    <script src="three.min.js"></script>
+
+    <script>
+      loop();
+      fu1nction loop()
+      {
+      requestAnimationFrame( loop );
+      cube.rotation.x += 0.001;
+      cube.rotation.y += 0.001;
+      renderer.render( scene, camera );
+      }
+      
+    </script>
+    
+  </body>
+  
+</html>
+
