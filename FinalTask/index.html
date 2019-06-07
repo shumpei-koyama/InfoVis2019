@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <title>Final Task</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+    <script src="three.min.js"></script>
+	<script src="TrackballControls.js"></script>
+	<script src="https://naohisas.github.io/KVS.js/Build/KVS.min.js"></script>
+	<script src="https://naohisas.github.io/KVS.js/Build/KVS2THREE.min.js"></script>
+	<script src="script.js"></script>
+    <script type="x-shader/x-vertex" id="gouraud.vert">
+        varying vec3 point_color;
+        varying vec4 point_position;
+        varying vec3 normal_vector;
+        uniform vec3 light_position;
+
+        vec3 PhongReflection(vec3 C,vec3 L,vec3 N)
+        {
+        float ka = 0.3;
+        float kd = 0.5;
+        float ks = 0.8;
+        float n = 50.0;
+        vec3 R=reflect(-L,N);
+        float dd=max(dot(N, L),0.0);
+        float ds=pow(max(dot(R,L),0.0),n);
+        if(dd<=0.0){
+        ds = 0.0;
+        }
+        float Ia=ka;
+        float Id = kd*dd;
+        float Is = ks*ds;
+        return C*(Ia+Id+Is);
+        }
+
+        void main()
+        {
+        point_position = modelViewMatrix * vec4( position, 1.0 );
+        normal_vector = normalMatrix * normal;
+        vec3 C = color;
+        vec3 L = normalize( light_position - point_position.xyz );
+        vec3 N = normalize( normal_vector );
+        point_color = PhongReflection(C,L,N);
+        gl_Position = projectionMatrix * point_position;
+        }
+</script>
+    
+	<script type="x-shader/x-fragment" id="gouraud.frag">
+    varying vec3 point_color;
+    void main()
+    {
+    gl_FragColor = vec4( point_color, 1.0 );
+    }   
+</script>
+        
+    <h1>概要</h1>
+        <p>今回可視化するのは、流線のデータである。流線は箱のどこかから出始め、箱の内部で回転し、側面で途切れる。植物のゼンマイをイメージすると分かりやすい。<br>
+        今回は箱の大きさと流線の進行の度合いを自由に調節できるようにした。また、箱を生成する際に初期シードをランダムに変更し、流線が不規則に出現するようにした。</p>
+
+    <h1>可視化</h1>
+    <p>このページの1番下にjavascriptにより生成した流線を示す。ホイールを回転させると拡大率を調整でき、ドラッグで箱を自由に回転できる。また、描画領域の横のスライダで箱の大きさ、流線の生成度合いを変更できる。それぞれ"apply"を押下することで変更が反映される。</p>
+           
+    <h1>まとめ</h1>
+    <p>流線の大きさは箱の縦横高さのサイズに依存し、箱の縦横が大きいほど流線の描写の進行度合い（integration）を大きくしないと流線が完全に描写されない。<br>
+    また、元々は初期シードを「（箱の各辺の最大サイズ-1）の半分」で決めていたのを、乱数を用いて（箱の各辺の最大サイズ-1）の0.3倍〜0.7倍で決定したため、流線の始点、終点の位置が不規則に変化する。したがって、流線が多くの渦を描くことがあれば、1回転程度で終了する流線もある。
+        </p>
+       
+<br>
+        <div id="display" style="width: 80%; float: left;">
+        </div>
+        
+        <div id="controller1" style="width:20%; float:left;">
+        width <input type="range" min="2" max="256" step="2" value="64"
+                    id="width"/>    
+
+        <label id="width1" style="font-family:Arial;">64</label><br> 
+        depth <input type="range" min="2" max="256" step="2" value="64"
+        id="depth"/>
+        <label id="depth1" style="font-family:Arial;">64</label><br>
+        height<input type="range" min="2" max="256" step="2" value="64"
+        id="height"/>
+        <label id="height1" style="font-family:Arial;">64</label><br>
+        <button id="boxchange-button" style="font-family=Arial;" >
+        Apply</button>
+                 </div>
+        <br>
+        
+        <div id="controller2" style="width:20%; float:left;">
+    
+        integration<input type="range" min="0" max="2000" step="10" value="100"
+        id="integration"/>
+        <label id="intg1" style="font-family:Arial;">100</label><br>
+        <button id="integration-change-button" style="font-family=Arial;">
+        Apply</button>
+</div>
+        <script>
+            main();
+        </script>
+   
+                    
+    </body>
+</html>
+        
