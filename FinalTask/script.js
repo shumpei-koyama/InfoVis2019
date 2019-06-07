@@ -16,7 +16,7 @@ function main()
     var screen = new KVS.THREEScreen();
 
     screen.init(volume, {
-        width: window.innerWidth * 0.7,
+        width: window.innerWidth * 0.6,
         height: window.innerHeight*0.6,
         targetDom: document.getElementById('display'),
         enableAutoResize: false
