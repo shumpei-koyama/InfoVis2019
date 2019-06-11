@@ -1,9 +1,9 @@
 //初期シードをランダムに決める
 function getRandomSeed(x,y,z)
 {
-    var seedx = (0.3+Math.random()*0.4)*x;
-    var seedy = (0.3+Math.random()*0.4)*y;
-    var seedz = (0.3+Math.random()*0.4)*z;
+    var seedx = (0.4+Math.random()*0.2)*x;
+    var seedy = (0.4+Math.random()*0.2)*y;
+    var seedz = (0.4+Math.random()*0.2)*z;
     
     return new KVS.Vec3(seedx,seedy,seedz);
 }
@@ -33,7 +33,7 @@ function main()
         var color = new KVS.Vec3( 0.2, 0.7, 0.9 );
         var box = new KVS.BoundingBox();
         box.setColor( color );
-        box.setWidth( 4 );
+        box.setWidth( 3 );
 
         var seed_point = getRandomSeed(64,64,64);
        
@@ -42,7 +42,7 @@ function main()
         streamline.setIntegrationTime( 500 );
         streamline.setIntegrationMethod( KVS.RungeKutta4 );
         streamline.setIntegrationDirection( KVS.ForwardDirection );
-        streamline.setLineWidth(4);
+        streamline.setLineWidth(5);
         streamline.setSeedPoint( seed_point );
 
         var line1 = KVS.ToTHREELine( box.exec( volume ) );
@@ -54,6 +54,8 @@ function main()
         light.position.set( 64, 64, 64);
         screen.scene.add( light );
         
+        
+        //シェーダ（入れ方がわからない）
         var material = new THREE.ShaderMaterial({
         vertexColors: THREE.VertexColors,
         vertexShader: document.getElementById('gouraud.vert').text,
